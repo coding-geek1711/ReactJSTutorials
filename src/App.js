@@ -8,6 +8,10 @@ import PropsComponents from "./components/propsComponents";
 import StateComponent from "./components/stateComponent";
 import SetStateUnderstand from "./components/setStateUnderstand";
 import EventHandlers from "./components/EventHandlers";
+import BindingEventHandlers from "./components/BindingEventHandlers"
+import MethodsAsPropsParent from './components/MethodsAsPropsParent'
+import CondtionalRendering from './components/CondtionalRendering'
+import ListRendering from './components/ListRendering'
 
 function App() {
   return (
@@ -21,7 +25,11 @@ function App() {
       </PropsComponents> */}
       {/* <StateComponent /> */}
       {/* <SetStateUnderstand /> */}
-      <EventHandlers />
+      {/* <EventHandlers /> */}
+      {/* <BindingEventHandlers /> */}
+      {/* <MethodsAsPropsParent/> */}
+      {/* <CondtionalRendering /> */}
+      <ListRendering />
     </div>
   );
 }

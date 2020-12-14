@@ -1,11 +1,34 @@
-import React from "react";
+// import React from "react";
 
-function EventHandlers() {
-  return (
-    <div>
-      <button onClick={}>Click Me!!!</button>
-    </div>
-  );
+// // Event handling through Functional
+
+// function EventHandlers() {
+//   const clickHandler = () => {
+//     console.log("Button Clicked")
+//   }
+//   return (
+//     <div>
+//       <button onClick = {clickHandler}>Click Me!!!</button>
+//     </div>
+//   );
+// }
+
+// Event handling through class components
+
+import React, { Component } from 'react'
+
+class EventHandlers extends Component {
+  clickHandler(){
+    console.log("Button Clicked");
+  }
+  render() {
+    return (
+      <div>
+        <button onClick = {this.clickHandler}>Click me!!</button>        
+      </div>
+    )
+  }
 }
 
-export default EventHandlers;
+export default EventHandlers
+

@@ -351,3 +351,188 @@ this.setState((prevState) => (
 - When u have to update state based on previous state value, pass in function as an argument instead of regular object with one argument being the previous state
 
 # Lesson 7: Event Handlers
+
+## Event Handler for functional Components
+
+- Create file, event handler, rfce, create a jsx button named click, add it to App.js
+
+- React events are named via CamelCase
+  ie onClick and not onclick
+- A function is passed as an event handler rather than string.
+  ie
+
+```js
+<button onClick={clickHandler}>Click</button>
+```
+
+with clickHandler function defined elsewhere
+
+- NOTE: COMMON MISTAKES
+  - The function is passed as event handler, absence of parantheses is to be noted.
+  - We pass function and not function call
+  - If we leave parantheses on, message is already logged. This is because, the function call is executed when the button is rendered
+
+## Event Handler for Class Components
+
+- Its really similar to that of functional components. Create a button, add onClick with a method of this.clickHandler and define it in the class
+
+```js
+class EventHandler extends Component {
+  clickHandler() {
+    // function definition
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.clickHandler}>Click me!!</button>
+      </div>
+    );
+  }
+}
+```
+
+- Event Handler tends to modify state, which becomes complex. Lets see it next lesson
+
+# Lesson 8: Binding Event Handlers
+
+- This is purely on the basis of "this" keyword in js
+- What we want to do is on click of button, change text of button
+- We want message "Hello" to change to goodbye on button click
+- We assign an eventHandler method named clickHandler and use the setState property. If we do this.setState({message:"New message"}) and click button, the app breaks and gives error
+
+```
+cannot read property of setState undefined
+```
+
+- lets print this keyword in clickHandler to see what happens to this keyword in the method. It shows undefined.
+- It shows undefined coz when event handler function is called, the "this" instance of the button isnt passed onto the clickhandler which makes it resort to default "this" instance which in strict mode is undefined
+- To prevent this, we need to bind the "this" of button to clickhandler
+
+```js
+.bind() is generally used
+```
+
+- The ways to bind are:
+  - bind keyword
+    ```js
+    onClick = {this.clickHandler.bind(this)}
+    ```
+
+### NOTE: Although this works perfectly fine, every update to state will cause component to rerender, which generates a new event handler on every render, increasing load. So approach 1 is not much good
+
+- Arrow functions
+
+  ```js
+  onClick = {() => this.clickHandler()}
+  ```
+
+  Here function call is called and value is returned in the arrow function
+
+  - Has perfomance issues as first approach
+
+- Most Common Approach: Binding in constructor
+
+  ```js
+  // in the constructor
+  constructor(props){
+    super(props)
+    this.state = {
+      //state
+    }
+
+    // binding eventhandler in constructor
+    this.clickHandler = this.clickHandler.bind(this)
+  }
+  ```
+
+  - Because binding happens once in constructor, it doesnt create a new element everytime it renders
+
+- Using arrow function to define clickHandler function
+  // do try to this generally
+
+```js
+clickHandler = () => {//method definition}
+```
+
+# Lesson 9 : Methods as Props
+
+- Earlier we saw how to pass data from parent component can be passed as props to the child component.
+- What if child component needs to communicate with parent component, here we still use props, but this time, we pass in a reference to a method as props to the child component
+- New files called MethodsasPropsParent.js and MethodsAsPropsChild.js
+- rce snippet in Parent and rconst for constructor, declare state.parentName as "parent", make a new method called greetHandler in parent component which brings an alert which shows "Hello" + this.state.parentname
+- In Child Componet, rfce and create a button named greet Parent
+- What our aim is to do is to somehow on clicking of child component button we need the parent component method greetHandler to be executed. We do it via props
+- Import child component in parent component and call it in the render method, pass a props as follows
+
+```js
+<ChildComponent greetHandler={this.greetParent} />
+```
+
+- In Child component, we need to use the greetHandler props as we normally do. Note that we are passing in the function and not a function call (absence of parantheses)
+
+- Now we see how to pass a parameter from the child component to parent component
+
+### NOTE: USE () => {} FOR THIS AS IT IS REALLY EASY TO PASS PARAMETERS VIA ARROW FUNCTIONS
+
+```js
+// child
+function MethodsAsPropsChild(props) {
+  return (
+    <div>
+      <button
+        onClick={() => props.greetHandler(`Pass in any number of parameters`)}
+      >
+        Greet Parent
+      </button>
+    </div>
+  );
+}
+```
+
+and in the parent method definition, use the passed on parameter as u would normally
+
+```js
+// parent
+greetHandler = (childParameter) => console.log(childParameter);
+```
+
+# Lesson 10 : Conditional Rendering
+
+- Four Different Approaches
+
+  - IfElse
+  - Element Variables
+  - Ternary Conditional Operator
+  - Short circuit operator
+
+# Lesson 11 A : List Rendering
+
+- New file, rfce
+- ```js
+          return (
+            <div>
+                {
+                  nameArray.map(name => <h2>{name}</h2>)
+                }
+            </div>
+        )
+    }
+  ```
+  OR
+- ```js
+  const nameList = nameArray.map((name) => <h2>{name}</h2>);
+  return <div>{nameList}</div>;
+  ```
+
+### NOTE: RED TEXT CALLED EACH CHILD IN ARRAY SHOULD HAVE UNIQUE KEY PROP IS SEEN
+
+# Lesson 11 B : List and Keys
+
+- Each item in an array should have a prop named "key" which should be unique within list
+
+```js
+const personList = persons.map(person => <Person key = {person.id} person={person}>)
+```
+
+### NOTE: Key prop are not accessible in child component
+ 
